@@ -74,19 +74,19 @@ VALUES ('DELETE', OLD.id, NOW());
 Позволява обработка на редовете от дадена заявка по един ред наведнъж.
 
 ```sql
-DECLARE cur CURSOR FOR
+DECLARE curs CURSOR FOR
     SELECT order_id, total FROM orders WHERE status = 'pending';
 
-OPEN cur;
-FETCH cur INTO @oid, @total;
+OPEN curs;
+FETCH curs INTO @oid, @total;
 
 WHILE @@FETCH_STATUS = 0 DO
     -- обработка на всяка поръчка поотделно
     CALL process_order(@oid, @total);
-    FETCH cur INTO @oid, @total;
+    FETCH curs INTO @oid, @total;
 END WHILE;
 
-CLOSE cur;
+CLOSE curs;
 ```
 
 ---
